@@ -1,4 +1,6 @@
 import Rox from 'rox-browser'
+import store from '../store'
+import { betaAccess } from './users'
 
 export const Flags = {
   sidebar: new Rox.Flag(false),
@@ -18,6 +20,8 @@ async function initRollout () {
   const options = {
     configurationFetchedHandler: configurationFetchedHandler
   }
+  Rox.setCustomBooleanProperty('isLoggedIn', store.getters.isLoggedIn)
+  Rox.setCustomBooleanProperty('hasBetaAccess', betaAccess())
 
   Rox.register('default', Flags)
   await Rox.setup(process.env.VUE_APP_ROLLOUT_KEY, options)
